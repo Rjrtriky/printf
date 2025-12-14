@@ -12,50 +12,84 @@
 
 #include "ft_printf.h"
 
-char	*ft_conver_unbr_base(long int nbr, int base, int pos);
+int		ft_intlen_base(long long int nbr, int base);
+char	*ft_conver_nbr_base(long long int nbr, int base);
 char	*ft_conver_c(char chr);
 char	*ft_conver_s(char *str);
 char	*ft_conver_p(void *ptr);
-char	*ft_conver_i(long long int nbr);
+
+/* FT_INTLEN_BASE
+ * @def Computes the length (number of characters) required to represent
+ *      a signed long long integer in a given numerical base.
+ *
+ * @param
+ *      {long long int} nbr - number to evaluate.
+ *      {int} base - numerical base for conversion (>=2).
+ *
+ * @returns {int}
+ *      OK - Length of string representation, including sign if negative.
+ *      KO - Undefined if base < 2.
+ *
+ * @note
+ *      - Returns 1 if nbr == 0.
+ *      - Adds one extra character if nbr is negative (for '-').
+ */
+
+int	ft_intlen_base(long long int nbr, int base)
+{
+	int					len;
+	unsigned long int	unbr;
+
+	if (nbr == 0)
+		return (1);
+	len = 0;
+	if (nbr < 0)
+		len++;
+	unbr = ft_abs(nbr);
+	while (unbr > 0)
+	{
+		unbr = unbr / (unsigned long int) base;
+		len++;
+	}
+	return (len);
+}
 
 /* FT_CONVER_UNBR_BASE
- * @def Recursively converts an unsigned long integer to string representation
- * 		in given base.
+ * @def Converts an unsigned long integer to string representation in given base.
  *
  * @param
  *      {long int} nbr - number to convert (treated as unsigned).
- *      {int} base - numerical base for conversion (2-16).
- *      {int} pos - current position index (start with 0).
+ *      {int} base - numerical base for conversion (2-35).
  *
  * @returns {char*}
  *      OK - Dynamically allocated string containing converted number.
  *      KO - NULL if base invalid (<=1) or memory allocation fails.
  */
-char	*ft_conver_unbr_base(long int nbr, int base, int pos)
+char	*ft_conver_nbr_base(long long int nbr, int base)
 {
-	long int	coc;
-	char		*aux;
-	int			rest;
+	char				*aux;
+	unsigned long int	unbr;
+	int					len;
 
-	if (base <= 1)
+	if ((base < 2) || (base > 36))
 		return (NULL);
-	if (nbr >= base)
-	{
-		coc = nbr / base;
-		rest = nbr % base;
-		aux = ft_conver_unbr_base(coc, base, pos + 1);
-	}
-	else
-	{
-		aux = ft_calloc(pos + 2, sizeof(char));
-		if (aux == NULL)
-			return (NULL);
-		aux[pos + 1] = '\0';
-		rest = nbr;
-	}
+	len = ft_intlen_base(nbr, base);
+	aux = ft_calloc((len + 1), sizeof(char));
 	if (aux == NULL)
 		return (NULL);
-	aux[pos] = ft_conver_digital(rest);
+	if (nbr == 0)
+		aux[0] = '0';
+	else
+	{
+		if (nbr < 0)
+			aux[0] = '-';
+		unbr = ft_abs(nbr);
+		while (unbr > 0)
+		{
+			aux[--len] = ft_conver_digital(unbr % (unsigned long int) base);
+			unbr = unbr / (unsigned long int) base;
+		}
+	}
 	return (aux);
 }
 
@@ -123,38 +157,24 @@ char	*ft_conver_s(char *str)
 char	*ft_conver_p(void *ptr)
 {
 	char	*text_ptr;
+	char	*temp_ptr;
+	int		i;
 
-	text_ptr = ft_conver_unbr_base((long int) ptr, 16, 2);
-	if (text_ptr == NULL)
+	temp_ptr = ft_conver_nbr_base((long int) ptr, 16);
+	if (temp_ptr == NULL)
 		return (NULL);
+	text_ptr = ft_calloc(ft_strlen(temp_ptr) + 3, sizeof(char));
+	if (text_ptr == NULL)
+	{
+		free(temp_ptr);
+		return (NULL);
+	}
 	text_ptr[0] = '0';
 	text_ptr[1] = 'x';
+	i = -1;
+	while (temp_ptr[++i] != '\0')
+		text_ptr[i + 2] = temp_ptr[i];
+	text_ptr[i + 2] = '\0';
+	free(temp_ptr);
 	return (text_ptr);
-}
-
-/* FT_CONVER_I
- * @def Converts a signed long long integer to decimal string representation.
- *
- * @param
- *      {long long int} nbr - signed integer to convert.
- *
- * @returns {char*}
- *      OK - String representation of number (with '-' for negatives).
- *      KO - NULL if conversion fails.
- */
-char	*ft_conver_i(long long int nbr)
-{
-	char			*text_nbr;
-	long long int	n;
-
-	n = nbr;
-	if (n < 0)
-		text_nbr = ft_conver_unbr_base(-n, 10, 1);
-	else
-		text_nbr = ft_conver_unbr_base(n, 10, 0);
-	if (text_nbr == NULL)
-		return (NULL);
-	if (nbr < 0)
-		text_nbr[0] = '-';
-	return (text_nbr);
 }

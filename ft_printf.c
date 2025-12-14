@@ -12,30 +12,26 @@
 
 #include "ft_printf.h"
 
-char	*type_check(char chr, va_list param);
-int		ft_putstr_fd_i(char *str, int fd);
-int		ft_printf(const char *format, ...);
+unsigned long int	ft_abs(long long int nbr);
+char				*type_check(char *chr, va_list p);
+int					ft_printf(const char *format, ...);
 
-/* FT_PUTSTR_FD_I
- * @def Writes a string to the specified file descriptor and returns its length.
+/* FT_ABS
+ * @def Returns the absolute value of a signed long long integer,
+ *      converted to unsigned long integer.
  *
  * @param
- *      {char*} str - string to write (must be null-terminated).
- *      {int} fd - file descriptor to write to.
+ *      {long long int} nbr - number to convert.
  *
- * @returns {int}
- *      OK - Number of characters written (length of string).
- *      Note: Will crash if str is NULL (dereferenced in ft_strlen).
+ * @returns {unsigned long int}
+ *      OK - Absolute value of nbr, cast to unsigned long int.
  */
-int	ft_putstr_fd_i(char *str, int fd)
-{
-	int	len_str;
 
-	if (str == NULL)
-		return (0);
-	len_str = ft_strlen(*str);
-	write (fd, str, len_str);
-	return (len_str);
+unsigned long int	ft_abs(long long int nbr)
+{
+	if (nbr < 0)
+		return ((unsigned long int)(-nbr));
+	return ((unsigned long int)(nbr));
 }
 
 /* FT_TYPE_CHECK
@@ -58,33 +54,32 @@ int	ft_putstr_fd_i(char *str, int fd)
  *      OK - Number of characters printed (length of converted text).
  *      KO - Returns 0 if conversion returns NULL (e.g., for NULL string input).
  */
-int	type_check(char *chr, va_list p)
+char	*type_check(char chr, va_list p)
 {
 	char	*text_param;
-	int		len_text_p;
 
-	if (*chr == 'c')
+	text_param = NULL;
+	if (chr == 'c')
 		text_param = ft_conver_c(va_arg(p, int));
-	else if (*chr == 's')
+	else if (chr == 's')
 		text_param = ft_conver_s(va_arg(p, char *));
-	else if (*chr == 'p')
+	else if (chr == 'p')
 		text_param = ft_conver_p(va_arg(p, void *));
-	else if ((*chr == 'i') || (*chr == 'u'))
-		text_param = ft_conver_i(va_arg(p, long int));
-	else if (*chr == 'x')
-		text_param = ft_conver_unbr_base((va_arg(p, unsigned long int)), 16, 0);
-	else if (*chr == 'X')
-		text_param = ft_strtoup(ft_conver_unbr_base((va_arg(p,
-							unsigned long int)), 16, 0));
-	else if (*chr == '%')
-		text_param = ft_conver_c('%');
-	if (text_param != NULL)
+	else if (chr == 'i')
+		text_param = ft_conver_nbr_base((va_arg(p, long int)), 10);
+	else if (chr == 'u')
+		text_param = ft_conver_nbr_base(ft_abs(va_arg(p, long int)), 10);
+	else if ((chr == 'x') || (*chr == 'X'))
 	{
-		len_text_p = ft_putstr_fd_i(text_param, 1);
-		free(text_param);
-		return (len_text_p);
+		text_param = ft_conver_nbr_base((va_arg(p, unsigned long int)), 16);
+		if (chr == 'X')
+			text_param = ft_strtoup(&text_param);
 	}
-	return (0);
+	else if (chr == '%')
+		text_param = ft_conver_c('%');
+	if (text_param == NULL)
+		return (NULL);
+	return (text_param);
 }
 
 /* FT_PRINTF
@@ -103,25 +98,31 @@ int	type_check(char *chr, va_list p)
 int	ft_printf(const char *format, ...)
 {
 	va_list	list_arg;
-	char	*arg1;
 	char	*text;
 	int		i;
-	int		len_plus;
+	int		count;
 
 	va_start(list_arg, format);
-	arg1 = va_arg(list_arg, format);
-	i = 0;
-	len_plus = 0;
-	while (arg1[i] != '\0')
+	i = -1;
+	count = 0;
+	while (format[++i] != '\0')
 	{
-		if arg1[i] != '%'
-			ft_putchr_fd(arg1[i], 1);
+		if (format[i] != '%')
+			count = count + ft_putchr_fd(format[i], 1);
 		else
 		{
 			i++;
-			len_plus = len_plus + type_check(arg1[i], list_arg);
+			if (format[i] == '\0')
+				break ;
+			text = type_check(format[i], &list_arg);
+			if (text == NULL)
+			{
+				va_end(list_arg);
+				return (0);
+			}
+			count += ft_putstr_fd_i(text, 1);
 		}
-		i++;
 	}
-	return (i + len_plus);
+	va_end(list_arg);
+	return (count);
 }
