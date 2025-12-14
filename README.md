@@ -36,7 +36,7 @@ REFERENCIAS CLASICAS:
 
 	-Documentación de read() en Linux con man y en https://man7.org/linux/man-pages/man2/read.2.html
 	-Tutoriales sobre manejo de memoria dinámica en C.
-	-Ejemplos de proyectos previos de 42 relacionados con get_next_line.
+	-Ejemplos de proyectos previos de 42 relacionados con printf.
 
 USO DE IA:
 
