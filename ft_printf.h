@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <stdlib.h>
 
 // ft_auxiliars.c
 size_t	ft_strlen(const char *str);
@@ -26,10 +27,6 @@ char	*ft_conver_s(char *str);
 char	*ft_conver_p(void *ptr);
 char	*ft_conver_i(long long int nbr);
 
-// ft_put.c
-int		ft_putstr_fd_i(char *str, int fd);
-
 // ft_printf.c
 int		ft_printf(const char *format, ...);
-char	*type_check(char chr, va_list param);
 int		ft_putstr_fd_i(char *str, int fd);

@@ -30,13 +30,6 @@ char	*ft_conver_i(long long int nbr);
  * @returns {char*}
  *      OK - Dynamically allocated string containing converted number.
  *      KO - NULL if base invalid (<=1) or memory allocation fails.
- *
- * @dev
- *      Recursive algorithm that builds string from most to least significant
- * 			digit.
- *      Uses ft_conver_digital for digit-to-character conversion.
- *      Base must be between 2 and 16 (inclusive) for proper conversion.
- *      Note: Parameter type says 'long int' but function treats it as unsigned.
  */
 char	*ft_conver_unbr_base(long int nbr, int base, int pos)
 {
@@ -75,10 +68,6 @@ char	*ft_conver_unbr_base(long int nbr, int base, int pos)
  * @returns {char*}
  *      OK - 2-byte string containing character and null terminator.
  *      KO - NULL if memory allocation fails.
- *
- * @dev
- *      Simple wrapper that allocates memory and stores single character.
- *      Useful for consistent string handling in printf pipeline.
  */
 char	*ft_conver_c(char chr)
 {
@@ -101,12 +90,6 @@ char	*ft_conver_c(char chr)
  * @returns {char*}
  *      OK - Newly allocated copy of input string.
  *      KO - NULL if input is NULL or memory allocation fails.
- *
- * @dev
- *      Standard string duplication function.
- *      Returns NULL for NULL input (printf convention for "(null)" not
- * 			implemented).
- *      Note: For printf, typically should return "(null)" for NULL input.
  */
 char	*ft_conver_s(char *str)
 {
@@ -136,11 +119,6 @@ char	*ft_conver_s(char *str)
  * @returns {char*}
  *      OK - String in format "0x..." (e.g., "0x7ffeeb5a8e20").
  *      KO - NULL if conversion fails.
- *
- * @dev
- *      Uses ft_conver_unbr_base with base 16 and starting position 2.
- *      Manually inserts "0x" prefix after conversion.
- *      Note: Starts recursion at position 2 to reserve space for prefix.
  */
 char	*ft_conver_p(void *ptr)
 {
@@ -149,8 +127,8 @@ char	*ft_conver_p(void *ptr)
 	text_ptr = ft_conver_unbr_base((long int) ptr, 16, 2);
 	if (text_ptr == NULL)
 		return (NULL);
-	text_ptr[0]= '0';
-	text_ptr[1]= 'x';
+	text_ptr[0] = '0';
+	text_ptr[1] = 'x';
 	return (text_ptr);
 }
 
@@ -163,17 +141,6 @@ char	*ft_conver_p(void *ptr)
  * @returns {char*}
  *      OK - String representation of number (with '-' for negatives).
  *      KO - NULL if conversion fails.
- *
- * @dev
- *      Handles negative numbers by converting absolute value and prepending '-'.
- *      Uses ft_conver_unbr_base with base 10.
- *      Starts recursion at position 1 for negatives (reserving space for '-'),
- *      position 0 for positives.
- *
- * @warning
- *      - Uses long long int parameter but ft_conver_unbr_base expects long int.
- *      - Potential overflow with LONG_MIN: -(-LONG_MIN) may overflow.
- *      - Negative zero case not handled (shouldn't occur in practice).
  */
 char	*ft_conver_i(long long int nbr)
 {
@@ -191,4 +158,3 @@ char	*ft_conver_i(long long int nbr)
 		text_nbr[0] = '-';
 	return (text_nbr);
 }
-

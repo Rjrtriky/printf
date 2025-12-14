@@ -26,12 +26,6 @@ int		ft_printf(const char *format, ...);
  * @returns {int}
  *      OK - Number of characters written (length of string).
  *      Note: Will crash if str is NULL (dereferenced in ft_strlen).
- *
- * @dev
- *      Uses ft_strlen to calculate string length, then writes entire string
- * 			via write().
- *      Return value matches number of bytes written (should equal string
- * 			length).
  */
 int	ft_putstr_fd_i(char *str, int fd)
 {
@@ -47,16 +41,6 @@ int	ft_putstr_fd_i(char *str, int fd)
 /* FT_TYPE_CHECK
  * @def Dispatches format specifier to appropriate conversion function and
  *		outputs result.
- *
- * @param
- *      {char*} chr - pointer to format specifier character.
- *      {va_list} p - variable argument list containing values to format.
- *
- * @returns {int}
- *      OK - Number of characters printed (length of converted text).
- *      KO - Returns 0 if conversion returns NULL (e.g., for NULL string input).
- *
- * @dev
  *      Routes format specifiers to specific conversion functions:
  *      - 'c': character conversion via ft_conver_c
  *      - 's': string conversion via ft_conver_s
@@ -65,18 +49,14 @@ int	ft_putstr_fd_i(char *str, int fd)
  *      - 'x': lowercase hexadecimal via ft_conver_unbr_base
  *      - 'X': uppercase hexadecimal via ft_strtoup wrapper
  *      - '%': percent literal via ft_conver_c
- *      
- *      Outputs converted text using ft_putstr_fd_i and frees allocated memory.
- *      All conversion functions are expected to return dynamically allocated
- * 			strings.
  *
- * @note
- *      - 'u' format uses ft_conver_i which expects long int, not unsigned int
- *      - 'i' and 'u' share the same conversion function (potentially
- * 			problematic)
- *      - No default case for invalid format specifiers
- *      - ft_strtoup modifies string in-place; ensure it handles NULL returns
- *      - Memory safety: text_param is always freed if not NULL
+ * @param
+ *      {char*} chr - pointer to format specifier character.
+ *      {va_list} p - variable argument list containing values to format.
+ *
+ * @returns {int}
+ *      OK - Number of characters printed (length of converted text).
+ *      KO - Returns 0 if conversion returns NULL (e.g., for NULL string input).
  */
 int	type_check(char *chr, va_list p)
 {
@@ -119,13 +99,6 @@ int	type_check(char *chr, va_list p)
  *
  * @returns {int}
  *      OK - Total number of characters printed (literal chars + converted args).
- *      Note: Current implementation has multiple critical bugs.
- *
- * @dev
- *      Iterates through format string, printing literal characters directly.
- *      When '%' encountered, calls type_check to process format specifier.
- *      Tracks total printed characters via i (literal count) + len_plus 
- * 			(converted args).
  */
 int	ft_printf(const char *format, ...)
 {
