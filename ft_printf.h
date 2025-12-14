@@ -10,8 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
+
+# include <unistd.h>
+# include <stdlib.h>
 
 // ft_auxiliars.c
 size_t	ft_strlen(const char *str);
@@ -30,3 +33,5 @@ char	*ft_conver_i(long long int nbr);
 // ft_printf.c
 int		ft_printf(const char *format, ...);
 int		ft_putstr_fd_i(char *str, int fd);
+
+#endif
