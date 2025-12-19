@@ -18,7 +18,7 @@ NAME = libftprintf.a
 
 FAUXILIARS	= ft_auxiliars_libft.c
 PUTS		= ft_puts.c
-CONVERSIONS = ft_conver.c
+CONVERSIONS 	= ft_conver.c
 PRINTING	= ft_printf.c
 
 # ==============================================================================

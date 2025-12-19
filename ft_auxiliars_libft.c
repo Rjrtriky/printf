@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_auxiliars_libft.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rjuarez- <rjuarez-@student.42madrid.com>   #+#  +:+       +#+        */
+/*   By: rjuarez- <rjuarez-@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025-12-14 22:25:21 by rjuarez-          #+#    #+#             */
-/*   Updated: 2025-12-14 22:25:21 by rjuarez-         ###   ########.com      */
+/*   Created: 2025/12/14 22:25:21 by rjuarez-          #+#    #+#             */
+/*   Updated: 2025/12/19 01:29:02 by rjuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-size_t	ft_strlen(const char *str);
-void	*ft_bzero(void *ptr, size_t len);
-void	*ft_calloc(size_t num, size_t size);
-char	ft_conver_digital(unsigned char c);
-char	*ft_strtoup(char **text);
 
 /*FT_STRLEN
  * @def Calculates the length of a string (number of characters before '\0').
@@ -90,25 +84,6 @@ void	*ft_calloc(size_t num, size_t size)
 	else
 		return (ptr);
 }
-
-/* FT_CONVERT_DIGITAL
- * @def Converts a numeric value (0-15) to its hexadecimal character
- *		representation.
- *
- * @param
- *      {unsigned char} c - numeric value to convert (0-15).
- *
- * @returns {char}
- *      OK - Character '0'-'9' for values 0-9, or 'a'-'f' for values 10-15.
- */
-char	ft_conver_digital(unsigned char c)
-{
-	if (c <= 9)
-		return (c + '0');
-	else
-		return (c -10 + 'a');
-}
-
 /* FT_STRTOUP
  * @def Converts a string to uppercase in-place and returns the modified string.
  *
@@ -119,6 +94,7 @@ char	ft_conver_digital(unsigned char c)
  *      OK - Pointer to the uppercase-converted string.
  *      KO - NULL if input is NULL, string is NULL, or memory allocation fails.
  */
+
 char	*ft_strtoup(char **text)
 {
 	unsigned int	i;
@@ -135,4 +111,34 @@ char	*ft_strtoup(char **text)
 		i++;
 	}
 	return (*text);
+}
+
+/* FT_STRDUP
+ * @def    Creates a duplicate of a null-terminated string.
+ *
+ * @param  {const char*} ori - Source string to be duplicated.
+ *
+ * @returns {char*}
+ *          OK - Pointer to newly allocated memory containing an exact copy
+ *               of the source string, including the null terminator.
+ *          FAIL - NULL if memory allocation fails (malloc returns NULL).
+ */
+char	*ft_strdup(const char *ori)
+{
+	size_t	len;
+	size_t	i;
+	char	*ptr;
+
+	len = ft_strlen((char *)ori);
+	ptr = (char *)malloc((len + 1) * sizeof(char));
+	if (ptr == NULL)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		ptr[i] = ori[i];
+		i++;
+	}
+	ptr[len] = '\0';
+	return (ptr);
 }

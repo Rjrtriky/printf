@@ -6,52 +6,40 @@
 /*   By: rjuarez- <rjuarez-@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 17:32:23 by rjuarez-          #+#    #+#             */
-/*   Updated: 2025/12/11 15:02:16 by rjuarez-         ###   ########.fr       */
+/*   Updated: 2025/12/19 01:28:40 by rjuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int		ft_intlen_base(long long int nbr, int base);
+char	*ft_conver_null(char chr);
 char	*ft_conver_nbr_base(long long int nbr, int base);
-char	*ft_conver_c(char chr);
+int		ft_conver_c(int chr);
 char	*ft_conver_s(char *str);
 char	*ft_conver_p(void *ptr);
 
-/* FT_INTLEN_BASE
- * @def Computes the length (number of characters) required to represent
- *      a signed long long integer in a given numerical base.
+/* FT_CONVER_NULL
+ * @def    Converts null values to string representations for printf output.
  *
- * @param
- *      {long long int} nbr - number to evaluate.
- *      {int} base - numerical base for conversion (>=2).
+ * @param  {char} chr - format specifier character that determines which null
+ *                      representation to return:
+ *                      - 's': returns "(null)" for string null values
+ *                      - other: returns "(nil)" for pointer null values
  *
- * @returns {int}
- *      OK - Length of string representation, including sign if negative.
- *      KO - Undefined if base < 2.
+ * @returns {char*}
+ *          OK - Dynamically allocated string containing the null representation:
+ *               - "(null)" if chr == 's'
+ *               - "(nil)" for any other char value
+ *          FAIL - NULL if memory allocation fails (calloc returns NULL)
  *
- * @note
- *      - Returns 1 if nbr == 0.
- *      - Adds one extra character if nbr is negative (for '-').
- */
-
-int	ft_intlen_base(long long int nbr, int base)
+ * @note   The returned string is allocated with calloc and must be freed by
+ *         the caller to prevent memory leaks.
+ * */
+char	*ft_conver_null(char chr)
 {
-	int					len;
-	unsigned long int	unbr;
-
-	if (nbr == 0)
-		return (1);
-	len = 0;
-	if (nbr < 0)
-		len++;
-	unbr = ft_abs(nbr);
-	while (unbr > 0)
-	{
-		unbr = unbr / (unsigned long int) base;
-		len++;
-	}
-	return (len);
+	if (chr == 's')
+		return (ft_strdup("(null)"));
+	return (ft_strdup("(nil)"));
 }
 
 /* FT_CONVER_UNBR_BASE
@@ -100,19 +88,12 @@ char	*ft_conver_nbr_base(long long int nbr, int base)
  *      {char} chr - character to convert.
  *
  * @returns {char*}
- *      OK - 2-byte string containing character and null terminator.
- *      KO - NULL if memory allocation fails.
+ *      OK - 1
  */
-char	*ft_conver_c(char chr)
+int	ft_conver_c(int chr)
 {
-	char	*text;
-
-	text = ft_calloc(2, sizeof(char));
-	if (text == NULL)
-		return (NULL);
-	text[0] = chr;
-	text[1] = '\0';
-	return (text);
+	ft_putchr_fd(chr, 1);
+	return (1);
 }
 
 /* FT_CONVER_S
@@ -132,7 +113,7 @@ char	*ft_conver_s(char *str)
 	int		len_text;
 
 	if (str == NULL)
-		return (NULL);
+		return (ft_conver_null('s'));
 	len_text = ft_strlen(str);
 	text = ft_calloc(len_text + 1, sizeof(char));
 	if (text == NULL)
@@ -160,6 +141,8 @@ char	*ft_conver_p(void *ptr)
 	char	*temp_ptr;
 	int		i;
 
+	if (ptr == NULL)
+		return (ft_conver_null('p'));
 	temp_ptr = ft_conver_nbr_base((long int) ptr, 16);
 	if (temp_ptr == NULL)
 		return (NULL);
