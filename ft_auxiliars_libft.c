@@ -12,6 +12,12 @@
 
 #include "ft_printf.h"
 
+size_t				ft_strlen(const char *str);
+void				*ft_bzero(void *ptr, size_t len);
+void				*ft_calloc(size_t num, size_t size);
+char				*ft_strtoup(char **text);
+char				*ft_strdup(const char *ori);
+
 /*FT_STRLEN
  * @def Calculates the length of a string (number of characters before '\0').
  *

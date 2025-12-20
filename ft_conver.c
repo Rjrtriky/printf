@@ -13,7 +13,6 @@
 #include "ft_printf.h"
 
 char	*ft_conver_null(char chr);
-char	*ft_conver_nbr_base(long long int nbr, int base);
 int		ft_conver_c(int chr);
 char	*ft_conver_s(char *str);
 char	*ft_conver_p(void *ptr);
@@ -40,45 +39,6 @@ char	*ft_conver_null(char chr)
 	if (chr == 's')
 		return (ft_strdup("(null)"));
 	return (ft_strdup("(nil)"));
-}
-
-/* FT_CONVER_UNBR_BASE
- * @def Converts an unsigned long integer to string representation in given base.
- *
- * @param
- *      {long int} nbr - number to convert (treated as unsigned).
- *      {int} base - numerical base for conversion (2-35).
- *
- * @returns {char*}
- *      OK - Dynamically allocated string containing converted number.
- *      KO - NULL if base invalid (<=1) or memory allocation fails.
- */
-char	*ft_conver_nbr_base(long long int nbr, int base)
-{
-	char				*aux;
-	unsigned long int	unbr;
-	int					len;
-
-	if ((base < 2) || (base > 36))
-		return (NULL);
-	len = ft_intlen_base(nbr, base);
-	aux = ft_calloc((len + 1), sizeof(char));
-	if (aux == NULL)
-		return (NULL);
-	if (nbr == 0)
-		aux[0] = '0';
-	else
-	{
-		if (nbr < 0)
-			aux[0] = '-';
-		unbr = ft_abs(nbr);
-		while (unbr > 0)
-		{
-			aux[--len] = ft_conver_digital(unbr % (unsigned long int) base);
-			unbr = unbr / (unsigned long int) base;
-		}
-	}
-	return (aux);
 }
 
 /* FT_CONVER_C
@@ -143,7 +103,7 @@ char	*ft_conver_p(void *ptr)
 
 	if (ptr == NULL)
 		return (ft_conver_null('p'));
-	temp_ptr = ft_conver_nbr_base((long int) ptr, 16);
+	temp_ptr = ft_conver_nbr_base(ft_abs((long long int) ptr), 16);
 	if (temp_ptr == NULL)
 		return (NULL);
 	text_ptr = ft_calloc(ft_strlen(temp_ptr) + 3, sizeof(char));
