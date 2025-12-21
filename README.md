@@ -18,9 +18,8 @@ PARAMETROS:
 
 RETORNO:
 
--Número total de caracteres escritos (excluyendo el byte nulo terminador).
-
--En caso de error, el comportamiento depende del sistema, pero generalmente devuelve un número negativo.
+	-Número total de caracteres escritos (excluyendo el byte nulo terminador).
+	-En caso de error, el comportamiento depende del sistema, pero generalmente devuelve un número negativo.
     
 La función implementa los siguientes especificadores de formato:
 	
