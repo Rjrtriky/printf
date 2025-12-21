@@ -33,20 +33,25 @@ RETORNO:
 
 COMPILACION
 El proyecto debe compilarse con las banderas estándar de 42:
-        make
 
+		make
 Esto generará la biblioteca estática libftprintf.a.
-Para compilar un programa que utilice ft_printf:
-
-        cc -Wall -Wextra -Werror tu_programa.c libftprintf.a -o tu_programa
 
 MAKEFILE
 El Makefile incluye las siguientes reglas:
+
         Regla	            Descripción
         make o make all     Compila la biblioteca estática libftprintf.a
-        make clean	    Elimina los archivos objeto (.o)
-        make fclean	    Elimina los archivos objeto y la biblioteca
+        make clean	    	Elimina los archivos objeto (.o)
+        make fclean	    	Elimina los archivos objeto y la biblioteca
         make re	            Recompila completamente el proyecto
+INCLUIR EN PROYECTO
+En la cabecera del fichero donde queramos incluirlo solo debemos poner:
+
+		#include "ft_printf.h"
+Para compilar la libreria junto al proyecto que utilice ft_printf, usaremos:
+
+        cc -Wall -Wextra -Werror tu_programa.c libftprintf.a -o tu_programa
 
 ## 📚 Recursos
 
