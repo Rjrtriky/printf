@@ -16,9 +16,13 @@ PARAMETERS:
     -... - Variable arguments corresponding to the format specifiers.
 
 RETURN:
-    -Total number of characters written (excluding the null terminator byte).
-    -In case of error, the behavior depends on the system, but generally returns a negative number.
-    The function implements the following format specifiers:
+
+-Total number of characters written (excluding the null terminator byte).
+
+-In case of error, the behavior depends on the system, but generally returns a negative number.
+
+The function implements the following format specifiers:
+
         %c - Prints a single character
         %s - Prints a character string
         %p - Prints a pointer in hexadecimal format with "0x" prefix
@@ -30,15 +34,12 @@ RETURN:
 
 ## ⚙️ Instructions
 
-COMPILATION
-The project should be compiled with the standard 42 flags:
+LIBRARY COMPILATION
+Since there is a Makefile, you only need to compile using the make command. The compilation configuration with standar flags and other parametters is already in the Makefile itself.
+
         make
-
 This will generate the static library libftprintf.a.
-To compile a program that uses ft_printf:
-        cc -Wall -Wextra -Werror your_program.c libftprintf.a -o your_program
 
-MAKEFILE
 The Makefile includes the following rules:
         Rule	            Description
         make or make all    Compiles the static library libftprintf.a
@@ -46,6 +47,15 @@ The Makefile includes the following rules:
         make fclean	    Removes object files and the library
         make re	            Recompiles the entire project
 
+
+INCLUDE IN PROJECT
+
+In the header of the file where you want to include it, you only need to add:
+
+        #include "ft_printf.h"
+To compile the library together with a project that uses ft_printf, use:
+
+        cc -Wall -Wextra -Werror tu_programa.c libftprintf.a -o tu_programa
 ## 📚 Resources
 
 CLASSIC REFERENCES:
@@ -63,19 +73,18 @@ AI USAGE:
 ## 🔄 Project Implementation
 
 **Flowchart of the Algorithm**
-
         ┌─────────────────────────────────────────────┐
         │           START ft_printf()                 │
         └───────────────────┬─────────────────────────┘
-                            │
-                            ▼
+                        │
+                        ▼
         ┌─────────────────────────────────────────────┐
         │  Initialize:                                │
         │  • va_start(list_arg, format)               │
         │  • i = -1, count = 0                        │
         └───────────────────┬─────────────────────────┘
-                            │
-                            ▼
+                        │
+                        ▼
         ┌─────────────────────────────────────────────┐
         │    Is format[i] != '\0'?                    │
         │          │                                  │
@@ -143,8 +152,8 @@ AI USAGE:
         │     └─────────────┘                         │
         │                                             │
         └─────────────────────────────────────────────┘
-                            │
-                            ▼
+                        │
+                        ▼
         ┌─────────────────────────────────────────────┐
         │   va_end(list_arg)                          │
         │   return count                              │
@@ -164,8 +173,8 @@ AI USAGE:
         │   ├──► ft_strlen() → Old size
         │   └──► Copies data and frees old
         └── ft_strdup()
-            ├──► ft_strlen() → Required size
-            └──► malloc() + character copy
+        ├──► ft_strlen() → Required size
+        └──► malloc() + character copy
 
         MODULE 2: DATA OUTPUT (ft_puts.c)
         ├── ft_putchr_fd()
@@ -174,9 +183,9 @@ AI USAGE:
         │   ├──► ft_strlen() → Length to write
         │   └──► write() → Complete string
         └── ft_puts_fd()
-            ├──► ft_strlen() → Length for return
-            ├──► ft_putstr_fd() → Print string
-            └──► free() → Free dynamic memory
+        ├──► ft_strlen() → Length for return
+        ├──► ft_putstr_fd() → Print string
+        └──► free() → Free dynamic memory
 
         MODULE 3: BASIC CONVERSION (ft_conver.c)
         ├── ft_conver_null()
@@ -188,11 +197,11 @@ AI USAGE:
         │   ├──► ft_strlen() → Size
         │   └──► ft_calloc() + copy
         └── ft_conver_p()
-            ├──► ft_conver_null() → If ptr is NULL
-            ├──► ft_conver_nbr_base() → Hexadecimal without "0x"
-            ├──► ft_strdup() → "0x"
-            ├──► ft_recalloc() → Expand to add "0x"
-            └──► Manual concatenation
+        ├──► ft_conver_null() → If ptr is NULL
+        ├──► ft_conver_nbr_base() → Hexadecimal without "0x"
+        ├──► ft_strdup() → "0x"
+        ├──► ft_recalloc() → Expand to add "0x"
+        └──► Manual concatenation
 
         MODULE 4: NUMERIC CONVERSION (ft_conver_numbers.c)
         ├── ft_conver_digital()
@@ -203,10 +212,10 @@ AI USAGE:
         ├── ft_abs()
         │   └──► Simple absolute value
         └── ft_conver_nbr_base()
-            ├──► ft_intlen_base() → Required size
-            ├──► ft_calloc() → Reserve memory
-            ├──► ft_abs() → Absolute value
-            └──► ft_conver_digital() → Each digit
+        ├──► ft_intlen_base() → Required size
+        ├──► ft_calloc() → Reserve memory
+        ├──► ft_abs() → Absolute value
+        └──► ft_conver_digital() → Each digit
 
         MODULE 5: MAIN CORE (ft_printf.c)
         ├── ft_strtoup()
@@ -229,7 +238,6 @@ AI USAGE:
         └── return count → Total characters
 
 **Execution Flow**
-
         User calls ft_printf("Hello %s, number: %d", "World", 42)
         │
         ├──► ft_printf() starts
@@ -263,3 +271,4 @@ AI USAGE:
         │     └──► Total sum: 5 + 5 + 10 + 2 = 22 characters
         │
         └──► return 22
+        
