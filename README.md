@@ -17,9 +17,13 @@ PARAMETROS:
     -... - Argumentos variables correspondientes a los especificadores de formato.
 
 RETORNO:
-    -Número total de caracteres escritos (excluyendo el byte nulo terminador).
-    -En caso de error, el comportamiento depende del sistema, pero generalmente devuelve un número negativo.
-    La función implementa los siguientes especificadores de formato:
+
+-Número total de caracteres escritos (excluyendo el byte nulo terminador).
+
+-En caso de error, el comportamiento depende del sistema, pero generalmente devuelve un número negativo.
+    
+La función implementa los siguientes especificadores de formato:
+	
         %c - Imprime un solo carácter
         %s - Imprime una cadena de caracteres
         %p - Imprime un puntero en formato hexadecimal con prefijo "0x"
@@ -67,7 +71,7 @@ USO DE IA:
 	-Creación de diagramas de flujo despues de la codificación.
 
 ## 🔄 Implementacion del proyecto
-**Diagrama de flujo del algoritmo**
+DIAGRAMA DE FLUJO DE LA LIBRERIA
 
 
         ┌─────────────────────────────────────────────┐
@@ -156,7 +160,7 @@ USO DE IA:
         │   return count                              │
         └─────────────────────────────────────────────┘
 
-**Partes**
+MODULOS DE LA LIBRERIA
 
         MÓDULO 1: FUNCIONES AUXILIARES (ft_auxiliars_libft.c)
         ├── ft_strlen()
@@ -235,7 +239,7 @@ USO DE IA:
             └── return count → Total caracteres
 
 
-**Flujo de ejecucion**
+FLUJO DE EJECUCION DE LA FUNCION
 
         Usuario llama ft_printf("Hola %s, número: %d", "Mundo", 42)
         │
