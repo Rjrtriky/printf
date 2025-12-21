@@ -35,13 +35,14 @@ La función implementa los siguientes especificadores de formato:
 
 ## ⚙️ Instrucciones
 
-COMPILACION
-El proyecto debe compilarse con las banderas estándar de 42:
+COMPILACION DE LA LIBRERIA
+
+Al tener fichero Makefile, solo hace falta compilar mediante el comando make. Ya que la configuracion de la compilacion con las banderas estándar y demas parametros, esta en el propio fichero Makefile.
 
 		make
+
 Esto generará la biblioteca estática libftprintf.a.
 
-MAKEFILE
 El Makefile incluye las siguientes reglas:
 
         Regla	            Descripción
@@ -50,6 +51,7 @@ El Makefile incluye las siguientes reglas:
         make fclean	    	Elimina los archivos objeto y la biblioteca
         make re	            Recompila completamente el proyecto
 INCLUIR EN PROYECTO
+
 En la cabecera del fichero donde queramos incluirlo solo debemos poner:
 
 		#include "ft_printf.h"
