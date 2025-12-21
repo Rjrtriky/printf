@@ -4,11 +4,12 @@
 ## 📖 Description
 
 DEFINITION:
+
 This is a custom implementation of the standard printf() function from the C library. This project is part of the 42 curriculum and its main objectives are learning how to handle variable arguments (va_list) and advanced format string management, as well as reinforcing concepts of dynamic memory management and modular programming in C.
 
 PROTOTYPE:
 
-int ft_printf(const char *format, ...);
+    int ft_printf(const char *format, ...);
 
 PARAMETERS:
 
@@ -17,9 +18,8 @@ PARAMETERS:
 
 RETURN:
 
--Total number of characters written (excluding the null terminator byte).
-
--In case of error, the behavior depends on the system, but generally returns a negative number.
+    -Total number of characters written (excluding the null terminator byte).
+    -In case of error, the behavior depends on the system, but generally returns a negative number.
 
 The function implements the following format specifiers:
 
@@ -41,6 +41,7 @@ Since there is a Makefile, you only need to compile using the make command. The 
 This will generate the static library libftprintf.a.
 
 The Makefile includes the following rules:
+
         Rule	            Description
         make or make all    Compiles the static library libftprintf.a
         make clean	    Removes object files (.o)
@@ -60,19 +61,20 @@ To compile the library together with a project that uses ft_printf, use:
 
 CLASSIC REFERENCES:
 
-        -Documentation on va_list data type and its associated functions (va_list, va_start, va_arg, va_end), authorized functions malloc, free, write in Linux using man or at https://man7.org/linux/man-pages/man2/read.2.html
-        -Examples of previous 42 projects related to printf
-        -stdarg.h - Variable arguments
+    -Documentation on va_list data type and its associated functions (va_list, va_start, va_arg, va_end), authorized functions malloc, free, write in Linux using man or at https://man7.org/linux/man-pages/man2/read.2.html
+    -Examples of previous 42 projects related to printf
+    -stdarg.h - Variable arguments
 
 AI USAGE:
-
-        -Pointer safety
-        -Creating flowcharts after coding
-        -Translation to English
+    
+    -Pointer safety
+    -Creating flowcharts after coding
+    -Translation to English
 
 ## 🔄 Project Implementation
 
 **Flowchart of the Algorithm**
+
         ┌─────────────────────────────────────────────┐
         │           START ft_printf()                 │
         └───────────────────┬─────────────────────────┘
@@ -173,8 +175,8 @@ AI USAGE:
         │   ├──► ft_strlen() → Old size
         │   └──► Copies data and frees old
         └── ft_strdup()
-        ├──► ft_strlen() → Required size
-        └──► malloc() + character copy
+            ├──► ft_strlen() → Required size
+            └──► malloc() + character copy
 
         MODULE 2: DATA OUTPUT (ft_puts.c)
         ├── ft_putchr_fd()
@@ -183,9 +185,9 @@ AI USAGE:
         │   ├──► ft_strlen() → Length to write
         │   └──► write() → Complete string
         └── ft_puts_fd()
-        ├──► ft_strlen() → Length for return
-        ├──► ft_putstr_fd() → Print string
-        └──► free() → Free dynamic memory
+            ├──► ft_strlen() → Length for return
+            ├──► ft_putstr_fd() → Print string
+            └──► free() → Free dynamic memory
 
         MODULE 3: BASIC CONVERSION (ft_conver.c)
         ├── ft_conver_null()
@@ -197,11 +199,11 @@ AI USAGE:
         │   ├──► ft_strlen() → Size
         │   └──► ft_calloc() + copy
         └── ft_conver_p()
-        ├──► ft_conver_null() → If ptr is NULL
-        ├──► ft_conver_nbr_base() → Hexadecimal without "0x"
-        ├──► ft_strdup() → "0x"
-        ├──► ft_recalloc() → Expand to add "0x"
-        └──► Manual concatenation
+            ├──► ft_conver_null() → If ptr is NULL
+            ├──► ft_conver_nbr_base() → Hexadecimal without "0x"
+            ├──► ft_strdup() → "0x"
+            ├──► ft_recalloc() → Expand to add "0x"
+            └──► Manual concatenation
 
         MODULE 4: NUMERIC CONVERSION (ft_conver_numbers.c)
         ├── ft_conver_digital()
@@ -212,10 +214,10 @@ AI USAGE:
         ├── ft_abs()
         │   └──► Simple absolute value
         └── ft_conver_nbr_base()
-        ├──► ft_intlen_base() → Required size
-        ├──► ft_calloc() → Reserve memory
-        ├──► ft_abs() → Absolute value
-        └──► ft_conver_digital() → Each digit
+            ├──► ft_intlen_base() → Required size
+            ├──► ft_calloc() → Reserve memory
+            ├──► ft_abs() → Absolute value
+            └──► ft_conver_digital() → Each digit
 
         MODULE 5: MAIN CORE (ft_printf.c)
         ├── ft_strtoup()
@@ -230,14 +232,15 @@ AI USAGE:
         │   │   └── If 'X': ft_strtoup()
         │   └──► ft_puts_fd() → Print and free
         └── ft_printf()
-        ├── va_start() → Initialize arguments
-        ├── Loop through format string:
-        │   ├── Normal character: ft_putchr_fd()
-        │   └── Format specifier '%': ft_type_check()
-        ├── va_end() → Clean up arguments
-        └── return count → Total characters
+            ├── va_start() → Initialize arguments
+            ├── Loop through format string:
+            │   ├── Normal character: ft_putchr_fd()
+            │   └── Format specifier '%': ft_type_check()
+            ├── va_end() → Clean up arguments
+            └── return count → Total characters
 
 **Execution Flow**
+ 
         User calls ft_printf("Hello %s, number: %d", "World", 42)
         │
         ├──► ft_printf() starts
