@@ -69,6 +69,7 @@ int	ft_intlen_base(long long int nbr, int base)
 	}
 	return (len);
 }
+
 /* FT_ABS
  * @def Returns the absolute value of a signed long long integer,
  *      converted to unsigned long integer.
