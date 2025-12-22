@@ -69,24 +69,6 @@ int	ft_intlen_base(long long int nbr, int base)
 	}
 	return (len);
 }
-/*int	ft_intlen_base(long long int nbr, int base)
-{
-	unsigned long int	qnbr;
-
-	if (nbr == 0)
-		return (1);
-	if (nbr < 0)
-	{
-		qnbr = -1 * (nbr / (long long int) base);
-		return (2 + ft_intlen_base((long long int)qnbr, base));
-	}
-	else
-	{
-		qnbr = (nbr / (long long int) base);
-		return (1 + ft_intlen_base((long long int)qnbr, base));
-	}
-}*/
-
 /* FT_ABS
  * @def Returns the absolute value of a signed long long integer,
  *      converted to unsigned long integer.
@@ -143,11 +125,3 @@ char	*ft_conver_nbr_base(long long int nbr, int base)
 	}
 	return (aux);
 }
-// TO DO falla     ft_printf("FT_PRINTF: %p\n\n", (void*)LONG_MIN);
-// TO DO falla     ft_printf("FT_PRINTF: %p\n\n", (void*)ULONG_MAX);
-
-/*char *ft_conver_nbr_base(long long int nbr, int base)
-{
-
-}
-*/
